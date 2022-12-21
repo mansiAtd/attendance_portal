@@ -10,6 +10,7 @@ defmodule AttendancePortal.Leaves do
       select: c.id
     )
     |> Repo.one()
+
     attrs =
       params
       |> Map.put("user_id", id)
