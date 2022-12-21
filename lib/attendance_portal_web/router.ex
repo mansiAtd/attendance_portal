@@ -14,6 +14,8 @@ defmodule AttendancePortalWeb.Router do
     plug :accepts, ["json"]
   end
 
+  forward("/sent_emails", Bamboo.SentEmailViewerPlug)
+
   scope "/", AttendancePortalWeb do
     pipe_through :browser
 

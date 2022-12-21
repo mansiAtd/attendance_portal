@@ -2,23 +2,27 @@ defmodule AttendancePortal.Leaves do
   import Ecto.Query, warn: false
   alias AttendancePortal.Repo
   alias AttendancePortal.Schema.{Leave, User}
-  alias Services.Mailer
+
 
   def create_leave(user_id, params) do
-    id = from(c in User,
+    user = from(c in User,
       where: c.uid == ^user_id,
-      select: c.id
+      select: c
     )
     |> Repo.one()
 
     attrs =
       params
-      |> Map.put("user_id", id)
+      |> Map.put("user_id", user.id)
       |> Map.put("uid", "nleave-" <> Ecto.UUID.generate())
 
-    %Leave{}
+  {:ok, leave} =  %Leave{}
     |> Leave.changeset(attrs)
     |> Repo.insert()
+
+  AttendancePortal.SendEmail.send_email(user, leave)
+
+  {:ok, leave}
   end
 
   def update_leave(leave_id, params) do
@@ -27,9 +31,14 @@ defmodule AttendancePortal.Leaves do
     if is_nil(leave) do
       {:error, :not_found, "leave doesn't exist."}
     else
+        {:ok, leave} =
         leave
         |> Leave.changeset(params)
         |> Repo.update()
+
+        AttendancePortal.SendEmail.approval_email()
+
+        {:ok, leave}
     end
   end
 
@@ -60,18 +69,14 @@ defmodule AttendancePortal.Leaves do
     |> Repo.all()
   end
 
+  def get_user_name(id) do
+    user = from(c in User,
+      where: c.id == ^id,
+      select: c
+    )
+    |> Repo.one()
 
+    user.name
+  end
 
-  # defp send_email(restaurant_email, details) do
-  #   email =
-  #     new_email()
-  #     |> to(restaurant_email)
-  #     |> from("helping-hand-noreply@gmail.com")
-  #     |> subject("New Order from #{details.ngo_name}")
-  #     |> put_layout({HelpingHandWeb.EmailView, :send_email})
-  #     |> assign(:details, details)
-  #     |> render(:email_with_assigns)
-  #
-  #   Mailer.deliver_now(email)
-  # end
 end

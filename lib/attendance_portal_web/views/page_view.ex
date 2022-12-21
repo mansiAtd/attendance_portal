@@ -33,7 +33,8 @@ defmodule AttendancePortalWeb.PageView do
       start_date: leave.start_date,
     end_date: leave.end_date,
       uid: leave.uid,
-      status: leave.status
+      status: leave.status,
+      name: AttendancePortal.Leaves.get_user_name(leave.user_id)
     }
   end)
 
