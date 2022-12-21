@@ -4,10 +4,10 @@ defmodule AttendancePortalWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {AttendancePortalWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :fetch_flash
+    # plug :put_root_layout, {AttendancePortalWeb.LayoutView, :root}
+    # plug :protect_from_forgery
+    # plug :put_secure_browser_headers
   end
 
   pipeline :api do
@@ -15,17 +15,16 @@ defmodule AttendancePortalWeb.Router do
   end
 
   scope "/", AttendancePortalWeb do
-    # pipe_through :browser
+    pipe_through :browser
 
     get "/", PageController, :index
     post "/login", PageController, :login
     resources(
-      "/api/v1/users/:user_id/leaves",
+      "/users/:user_id/leaves",
       PageController,
       param: "uid",
       only: [:create, :update, :delete, :index, :show]
     )
-    get "/api/v1/user/:user_id/approve_leaves", PageController, :approve_leaves
   end
 
   # Other scopes may use custom stacks.

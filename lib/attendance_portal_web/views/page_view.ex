@@ -11,7 +11,31 @@ defmodule AttendancePortalWeb.PageView do
     }
   end
 
-  def render("login_error.json", %{msg: msg}) do
+  def render("msg.json", %{msg: msg}) do
     msg
+  end
+
+  def render("leave.json", %{leave: leave}) do
+    %{
+      type: leave.type,
+      reason: leave.reason,
+      start_date: leave.start_date,
+    end_date: leave.end_date,
+      uid: leave.uid,
+      status: leave.status
+    }
+  end
+
+  def render("leaves.json", %{leaves: leaves}) do
+    leaves |> Enum.map(fn leave -> %{
+      type: leave.type,
+      reason: leave.reason,
+      start_date: leave.start_date,
+    end_date: leave.end_date,
+      uid: leave.uid,
+      status: leave.status
+    }
+  end)
+
   end
 end

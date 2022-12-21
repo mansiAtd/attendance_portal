@@ -9,8 +9,8 @@ defmodule AttendancePortal.Schema.Leave do
     field :uid, :string
     belongs_to :user, User, foreign_key: :user_id
     field :type, :string
-    field :start_date, :utc_datetime
-    field :end_date, :utc_datetime
+    field :start_date, :string
+    field :end_date, :string
     field :reason, :string
     field :status, :string
     field :manager_comments, :string
@@ -21,6 +21,6 @@ defmodule AttendancePortal.Schema.Leave do
   @doc false
   def changeset(leave, attrs) do
     leave
-    |> cast(attrs, [:uid, :type, :start_date, :end_date, :reason, :status, :manager_comments])
+    |> cast(attrs, [:uid, :type, :start_date, :end_date, :reason, :status, :manager_comments, :user_id])
   end
 end

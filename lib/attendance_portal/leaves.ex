@@ -28,12 +28,12 @@ defmodule AttendancePortal.Leaves do
       {:error, :not_found, "leave doesn't exist."}
     else
         leave
-        |> leave.changeset(params)
+        |> Leave.changeset(params)
         |> Repo.update()
     end
   end
 
-  def delete_leave(uid, user_id) do
+  def delete_leave(uid) do
     leave = get_leave_by_uid(uid)
 
     if is_nil(leave) do
@@ -51,6 +51,16 @@ defmodule AttendancePortal.Leaves do
     )
     |> Repo.one()
   end
+
+  def get_leaves() do
+    from(c in Leave,
+      where: c.status == "Pending",
+      select: c
+    )
+    |> Repo.all()
+  end
+
+
 
   # defp send_email(restaurant_email, details) do
   #   email =
