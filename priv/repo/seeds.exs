@@ -22,7 +22,7 @@ user_data = [
       emp_id: "ATD01",
       name: "Kiran",
       password: "automatad@01",
-      designation: "CTO",
+      designation: "Manager",
       email: "kiran@automatad.com"
     }
   ),
@@ -33,7 +33,7 @@ user_data = [
       emp_id: "ATD02",
       name: "Vamsi Krishna",
       password: "automatad@02",
-      designation: "Engnieering Manager",
+      designation: "Manager",
       email: "vamsi@automatad.com"
     }
   ),
@@ -44,7 +44,7 @@ user_data = [
       emp_id: "ATD03",
       name: "Mohan",
       password: "automatad@03",
-      designation: "Engnieering Manager",
+      designation: "Manager",
       email: "mohan@automatad.com"
     }
   ),
@@ -55,7 +55,7 @@ user_data = [
       emp_id: "ATD04",
       name: "Ganesh Prabhu",
       password: "automatad@04",
-      designation: "Software Developer",
+      designation: "Employee",
       email: "ganesh@automatad.com"
     }
   )

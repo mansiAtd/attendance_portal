@@ -5,6 +5,11 @@ defmodule AttendancePortal.Leaves do
   alias Services.Mailer
 
   def create_leave(user_id, params) do
+    id = from(c in User,
+      where: c.uid == ^user_id,
+      select: c.id
+    )
+    |> Repo.one()
     attrs =
       params
       |> Map.put("user_id", id)
@@ -16,7 +21,7 @@ defmodule AttendancePortal.Leaves do
   end
 
   def update_leave(leave_id, params) do
-    leave = get_leave_by_uid(uid)
+    leave = get_leave_by_uid(leave_id)
 
     if is_nil(leave) do
       {:error, :not_found, "leave doesn't exist."}
@@ -46,16 +51,16 @@ defmodule AttendancePortal.Leaves do
     |> Repo.one()
   end
 
-  defp send_email(restaurant_email, details) do
-    email =
-      new_email()
-      |> to(restaurant_email)
-      |> from("helping-hand-noreply@gmail.com")
-      |> subject("New Order from #{details.ngo_name}")
-      |> put_layout({HelpingHandWeb.EmailView, :send_email})
-      |> assign(:details, details)
-      |> render(:email_with_assigns)
-
-    Mailer.deliver_now(email)
-  end
+  # defp send_email(restaurant_email, details) do
+  #   email =
+  #     new_email()
+  #     |> to(restaurant_email)
+  #     |> from("helping-hand-noreply@gmail.com")
+  #     |> subject("New Order from #{details.ngo_name}")
+  #     |> put_layout({HelpingHandWeb.EmailView, :send_email})
+  #     |> assign(:details, details)
+  #     |> render(:email_with_assigns)
+  #
+  #   Mailer.deliver_now(email)
+  # end
 end

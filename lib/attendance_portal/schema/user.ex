@@ -19,8 +19,8 @@ defmodule AttendancePortal.Schema.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :name, :password, :emp_id, :designation])
-    |> validate_required([:email, :name, :password])
+    |> cast(attrs, [:email, :name, :password, :emp_id, :designation, :uid])
+    |> validate_required([:email, :name, :password, :uid])
     |> validate_changeset
   end
 

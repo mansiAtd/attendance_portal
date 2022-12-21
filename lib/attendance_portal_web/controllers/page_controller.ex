@@ -8,7 +8,7 @@ defmodule AttendancePortalWeb.PageController do
     render(conn, "index.html")
   end
 
-  def login(conn, %{"user" => %{"id" => id, "password" => password}}) do
+  def login(conn, %{"id" => id, "password" => password}) do
      case Users.find_user_and_confirm_password(id, password) do
        {:ok, user} ->
           render(conn, "login_success.json",
@@ -18,7 +18,6 @@ defmodule AttendancePortalWeb.PageController do
        {:error, _} ->
          render(conn, "login_error.json", msg: "Invalid credentials")
     end
-
   end
 
   def logout(conn, _params) do
